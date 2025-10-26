@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<script id="sp-iframe-overlay-script">
+(function(){
+  function ensureOverlay(){
+    if (document.getElementById('sp-iframe-overlay')) return;
+    // Hide any legacy overlays
+    (function(){ var s=document.createElement('style'); s.textContent='#overlayNav,.overlay-nav,.nav-overlay,.menu-overlay{display:none !important;} body.sp-nav-open{overflow:hidden !important;}'; document.head.appendChild(s); })();
+
+    var ifr = document.createElement('iframe');
+    ifr.id = 'sp-iframe-overlay';
+    ifr.setAttribute('title','Menu'); ifr.setAttribute('aria-hidden','true');
+    Object.assign(ifr.style, { position:'fixed', inset:'0', width:'100vw', height:'100vh', border:'0', display:'none', zIndex:'2147483647' });
+
+    var src = String.raw`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--rim: rgba(255,255,255,.12);}
+html,body{margin:0;height:100%}
+body{display:grid;place-items:center;background:rgba(0,0,0,.82);
+     font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+@keyframes spIn{0%{opacity:0;transform:scale(.96);filter:blur(6px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.nav-card{width:min(80vw,480px);max-height:70vh;overflow:auto;border-radius:16px;
+         border:1px solid var(--rim);background:rgba(255,255,255,.06);
+         backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+         padding:1.1rem 1.4rem; box-shadow:0 20px 60px rgba(0,0,0,.45); text-align:center; animation: spIn .45s cubic-bezier(.2,.8,.2,1) both}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:.25rem}
+a{color:#fff;text-decoration:none;font-weight:800;font-size:clamp(1.02rem,1.5vw,1.18rem); padding:.35em 0; transition:opacity .2s ease, transform .2s ease}
+a:hover{color:#9fc3ff; transform:translateY(-1px)}
+.close{position:fixed;top:16px;right:16px;background:rgba(255,255,255,.06);border:1px solid var(--rim);
+       color:#fff;border-radius:999px;padding:.5rem .9rem;cursor:pointer}
+</style></head><body>
+<button class="close" aria-label="Close">Close</button>
+<nav class="nav-card" aria-label="Main menu">
+  <ul>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<script>
+(function(){
+  function send(type, payload){ parent.postMessage({__sp:true, type:type, payload:payload}, '*'); }
+  document.querySelector('.close').addEventListener('click', function(){ send('close'); });
+  document.body.addEventListener('click', function(e){ if(e.target===document.body){ send('close'); } });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ send('close'); } });
+  document.querySelectorAll('a[href]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); var href=a.getAttribute('href'); if(href){ send('nav', href); } });
+  });
+})();
+<\/script>
+</body></html>`;
+    ifr.srcdoc = src;
+
+    function mount(){ document.body.appendChild(ifr); }
+    if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', mount); } else { mount(); }
+
+    window.SP_OPEN_OVERLAY = function(){ ifr.style.display='block'; ifr.removeAttribute('aria-hidden'); document.body.classList.add('sp-nav-open'); };
+    window.SP_CLOSE_OVERLAY = function(){ ifr.style.display='none'; ifr.setAttribute('aria-hidden','true'); document.body.classList.remove('sp-nav-open'); };
+
+    window.addEventListener('message', function(ev){
+      var d = ev.data || {}; if(!d || d.__sp !== true) return;
+      if (d.type === 'close'){ window.SP_CLOSE_OVERLAY(); }
+      else if (d.type === 'nav' && d.payload){ window.location.href = d.payload; }
+    });
+
+    function isHamburger(node){
+      var n=node;
+      while(n && n!==document){
+        var id=(n.id||''); var cls=(n.className||'').toString().toLowerCase();
+        var aria=(n.getAttribute && ((n.getAttribute('aria-label')||'')+' '+(n.getAttribute('aria-controls')||'')+' '+(n.getAttribute('title')||''))).toLowerCase();
+        var txt=(n.textContent||'').trim();
+        if(/menu|nav|toggle|burger|bars|hamburger/.test((id+' '+cls))) return true;
+        if(aria.includes('menu') || aria.includes('navigation')) return true;
+        if(txt==='≡' || txt==='☰' || txt==='=') return true;
+        n=n.parentElement;
+      }
+      return false;
+    }
+    function inTopRight(e){ var x=e.clientX||0, y=e.clientY||0, w=window.innerWidth||0; return (x > w-160) && (y < 120); }
+    function maybeOpen(e){
+      if (isHamburger(e.target) || inTopRight(e)){
+        e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+        window.SP_OPEN_OVERLAY();
+      }
+    }
+    ['pointerdown','touchstart','click'].forEach(function(ev){
+      window.addEventListener(ev, maybeOpen, true);
+      document.addEventListener(ev, maybeOpen, true);
+    });
+  }
+  ensureOverlay();
+})();
+</script>
+
+
+  <title>Curved Terrace Garden — Studio Prangana</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0e1013">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo/logo.png" type="image/png">
+
+</head>
+<body class="page-project">
+  <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
+  <div id="glassFX" aria-hidden="true"></div>
+    <header class="site-header">
+    <a class="logo" href="index.html"><img src="assets/logo/logo.png" alt="Studio Prangana logo"><span>Studio Prangana</span></a>
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav id="overlayNav" class="overlay-nav" aria-hidden="true">
+      <div class="nav-card">
+        <ul>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <button id="closeNav" class="close-nav" aria-label="Close menu">Close</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1 class="headline">Curved Terrace Garden</h1>
+        <p class="lead">Crafting stunning terrace spaces with flowing curves and dynamic shadows. Fabrication transforms rooftops into gardens and party decks—where art and function meet.</p>
+        <div class="embed-frame reveal">
+          <div class="embed-aspect">
+            <iframe src="https://www.instagram.com/reel/DMe3JZVSQcu/embed" allowfullscreen title="Curved Terrace Reel"></iframe>
+          </div>
+          <p class="embed-note">If the video doesn’t load, you may be offline. The reel opens within the site (no page change).</p>
+        </div>
+        <div class="glass reveal" style="margin-top:1rem">
+          <h3>About</h3>
+          <p>Exploring fabrication works: fluid geometries, shade, and wind to elevate rooftop life. Designed for lounging, gatherings and garden moments—crafted to be as durable as it is beautiful.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+    <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <h5>Studio Prangana</h5>
+        <p>Write to us · <a href="mailto:prangana.design.studio@gmail.com">prangana.design.studio@gmail.com</a></p>
+      </div>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="services.html">Services</a>
+        <a href="team.html">Team</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="container fineprint">© <span id="year"></span> Studio Prangana.</div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

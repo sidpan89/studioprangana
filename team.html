@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<script id="sp-iframe-overlay-script">
+(function(){
+  function ensureOverlay(){
+    if (document.getElementById('sp-iframe-overlay')) return;
+    // Hide any legacy overlays
+    (function(){ var s=document.createElement('style'); s.textContent='#overlayNav,.overlay-nav,.nav-overlay,.menu-overlay{display:none !important;} body.sp-nav-open{overflow:hidden !important;}'; document.head.appendChild(s); })();
+
+    var ifr = document.createElement('iframe');
+    ifr.id = 'sp-iframe-overlay';
+    ifr.setAttribute('title','Menu'); ifr.setAttribute('aria-hidden','true');
+    Object.assign(ifr.style, { position:'fixed', inset:'0', width:'100vw', height:'100vh', border:'0', display:'none', zIndex:'2147483647' });
+
+    var src = String.raw`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--rim: rgba(255,255,255,.12);}
+html,body{margin:0;height:100%}
+body{display:grid;place-items:center;background:rgba(0,0,0,.82);
+     font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#fff}
+@keyframes spIn{0%{opacity:0;transform:scale(.96);filter:blur(6px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.nav-card{width:min(80vw,480px);max-height:70vh;overflow:auto;border-radius:16px;
+         border:1px solid var(--rim);background:rgba(255,255,255,.06);
+         backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+         padding:1.1rem 1.4rem; box-shadow:0 20px 60px rgba(0,0,0,.45); text-align:center; animation: spIn .45s cubic-bezier(.2,.8,.2,1) both}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:.25rem}
+a{color:#fff;text-decoration:none;font-weight:800;font-size:clamp(1.02rem,1.5vw,1.18rem); padding:.35em 0; transition:opacity .2s ease, transform .2s ease}
+a:hover{color:#9fc3ff; transform:translateY(-1px)}
+.close{position:fixed;top:16px;right:16px;background:rgba(255,255,255,.06);border:1px solid var(--rim);
+       color:#fff;border-radius:999px;padding:.5rem .9rem;cursor:pointer}
+</style></head><body>
+<button class="close" aria-label="Close">Close</button>
+<nav class="nav-card" aria-label="Main menu">
+  <ul>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<script>
+(function(){
+  function send(type, payload){ parent.postMessage({__sp:true, type:type, payload:payload}, '*'); }
+  document.querySelector('.close').addEventListener('click', function(){ send('close'); });
+  document.body.addEventListener('click', function(e){ if(e.target===document.body){ send('close'); } });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ send('close'); } });
+  document.querySelectorAll('a[href]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); var href=a.getAttribute('href'); if(href){ send('nav', href); } });
+  });
+})();
+<\/script>
+
+<section class="team-wrap">
+  <header class="team-header">
+    <h1>Our Team</h1>
+    <p>The people behind Studio Prangana.</p>
+  </header>
+  <div class="team-grid">
+    
+    <article class="team-card">
+      <img class="team-photo" src="assets/logo/logo.png" alt="Mithileshwar Ram Krishna">
+      <div class="team-info">
+        <h3 class="team-name">Mithileshwar Ram Krishna</h3>
+        <p class="team-role">Co‑Founder · Partner · Principal Architect</p>
+      </div>
+    </article>
+    <article class="team-card">
+      <img class="team-photo" src="assets/team/mithileshwar.jpg" alt="Manaswini N A">
+      <div class="team-info">
+        <h3 class="team-name">Manaswini N A</h3>
+        <p class="team-role">Co‑Founder · Principal Architect</p>
+      </div>
+    </article>
+    <article class="team-card">
+      <img class="team-photo" src="assets/team/manaswini.jpg" alt="Krishna Telkar">
+      <div class="team-info">
+        <h3 class="team-name">Krishna Telkar</h3>
+        <p class="team-role">Co‑Founder · Principal Architect</p>
+      </div>
+    </article>
+    <article class="team-card">
+      <img class="team-photo" src="assets/team/krishna.jpg" alt="Anusha K L">
+      <div class="team-info">
+        <h3 class="team-name">Anusha K L</h3>
+        <p class="team-role">Junior Architect</p>
+      </div>
+    </article>
+  </div>
+</section>
+<script>
+(function(){
+  var io = new IntersectionObserver(function(ents){
+    ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('reveal'); io.unobserve(e.target);} });
+  }, {threshold:.2});
+  document.querySelectorAll('.team-card').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.team-card').forEach(function(card){
+    card.addEventListener('pointermove', function(ev){
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (ev.clientX - r.left)+'px');
+      card.style.setProperty('--my', (ev.clientY - r.top)+'px');
+    });
+  });
+})();
+</script>
+
+</body></html>`</script>
+
+
+  <title>Team — Studio Prangana</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0e1013">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo/logo.png" type="image/png">
+
+</head>
+<body class="page-team">
+  <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
+  <div id="glassFX" aria-hidden="true"></div>
+    <header class="site-header">
+    <a class="logo" href="index.html"><img src="assets/logo/logo.png" alt="Studio Prangana logo"><span>Studio Prangana</span></a>
+    <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav id="overlayNav" class="overlay-nav" aria-hidden="true">
+      <div class="nav-card">
+        <ul>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <button id="closeNav" class="close-nav" aria-label="Close menu">Close</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="section team-grid">
+      <article class="member tilt reveal"><img src="assets/team/mithileshwar.jpg" alt="Mithileshwar Ram Krishna" /><div class="member-meta"><h3>Mithileshwar Ram Krishna</h3><span>Co‑Founder · Partner · Principal Architect</span></div></article>
+      <article class="member tilt reveal"><img src="assets/team/manaswini.jpg" alt="Manaswini N A" /><div class="member-meta"><h3>Manaswini N A</h3><span>Co‑Founder · Principal Architect</span></div></article>
+      <article class="member tilt reveal"><img src="assets/team/krishna.jpg" alt="Krishna Telkar" /><div class="member-meta"><h3>Krishna Telkar</h3><span>Co‑Founder · Principal Architect</span></div></article>
+      <article class="member tilt reveal"><img src="assets/team/anusha.jpg" alt="Anusha K L" /><div class="member-meta"><h3>Anusha K L</h3><span>Junior Architect</span></div></article>
+    </section>
+  </main>
+    <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <h5>Studio Prangana</h5>
+        <p>Write to us · <a href="mailto:prangana.design.studio@gmail.com">prangana.design.studio@gmail.com</a></p>
+      </div>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="services.html">Services</a>
+        <a href="team.html">Team</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="container fineprint">© <span id="year"></span> Studio Prangana.</div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
