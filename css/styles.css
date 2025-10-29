@@ -30,16 +30,18 @@ a:hover{color:var(--accent)}
 .logo{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:800}
 .logo img{width:28px;height:28px}
 .hamburger{width:46px;height:38px;border:1px solid var(--rim);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border-radius:12px;display:grid;place-content:center;gap:4px;cursor:pointer;transition:transform .2s ease, box-shadow .3s var(--ease-smooth)}
-.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;box-shadow:0 0 12px rgba(255,255,255,.18)}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;box-shadow:0 0 12px rgba(255,255,255,.18);transition:transform .3s var(--ease-snap),opacity .3s var(--ease-snap)}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
 .hamburger:hover{box-shadow:0 12px 36px rgba(0,0,0,.36) inset}
 .hamburger:active{transform:scale(.96)}
 
 /* Overlay menu — ensure centered + strong dim */
-.overlay-nav{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .45s var(--ease-snap),visibility .45s var(--ease-snap);z-index:1200}
+.overlay-nav{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .45s var(--ease-snap),visibility .45s var(--ease-snap);z-index:1200}
 .overlay-nav.open{opacity:1;visibility:visible}
-.nav-card{border:1px solid var(--rim);background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));backdrop-filter:blur(28px) saturate(170%);border-radius:18px;padding:1.2rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,.45);min-width:min(90vw,560px);transform:translateZ(0)}
 .overlay-nav ul{list-style:none;padding:0;margin:0;text-align:center}
-.overlay-nav a{display:block;font-size:clamp(1.12rem,2.4vw,1.6rem);padding:.5em 0;color:color-mix(in oklab,var(--text),white 8%);text-decoration:none;font-weight:700;letter-spacing:.2px}
+.overlay-nav a{display:block;font-size:clamp(2.2rem,5vw,4rem);padding:.2em 0;color:var(--text);text-decoration:none;font-weight:800;letter-spacing:-.01em;transition:color .3s var(--ease-snap)}
 .overlay-nav a:hover{color:var(--accent)}
 .close-nav{position:absolute;top:18px;right:18px;border:1px solid var(--rim);background:color-mix(in oklab,var(--bg),transparent 10%);color:var(--text);border-radius:999px;padding:.5rem .9rem;cursor:pointer}
 .nav-visual{display:none}
@@ -116,8 +118,7 @@ body.mouse-idle #glassFX{opacity:0}
 
 /* Utilities */
 .glass{border:1px solid var(--rim);background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));backdrop-filter:blur(18px) saturate(160%);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35);padding:1rem}
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease-snap),transform .7s var(--ease-snap)}
-.reveal.in-view{opacity:1;transform:translateY(0)}
+.reveal{opacity:0;}
 
 
 /* Team page centered cards */

@@ -11,6 +11,7 @@ function overlayNav(){
     const next = (typeof open === 'boolean') ? open : !overlay.classList.contains('open');
     overlay.classList.toggle('open', next);
     document.body.classList.toggle('nav-open', next);
+    menuBtn?.classList.toggle('open', next);
     menuBtn?.setAttribute('aria-expanded', String(next));
     overlay?.setAttribute('aria-hidden', String(!next));
   };
@@ -26,8 +27,23 @@ function heroSlideshow(){
 }
 
 function ioReveals(container=document){
-  const io = new IntersectionObserver((entries)=>{ entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.2 });
-  $$('.reveal', container).forEach(el => io.observe(el));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        gsap.to(e.target, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out'
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  $$('.reveal', container).forEach(el => {
+    gsap.set(el, { y: 50, opacity: 0 });
+    io.observe(el);
+  });
 }
 
 function wordsManifest(rootEl){
@@ -128,10 +144,114 @@ function initPage(container=document){
   tiltify();
   filtersProjects();
   glassCursor();
+  initLiquidGlass();
 }
 
 preloader();
 document.addEventListener('DOMContentLoaded', () => {
   splashIntro();
   initPage(document);
+
+  barba.init({
+    transitions: [{
+      name: 'default-transition',
+      leave(data) {
+        return gsap.to(data.current.container, {
+          opacity: 0,
+          y: 50,
+          duration: 0.5
+        });
+      },
+      enter(data) {
+        return gsap.from(data.next.container, {
+          opacity: 0,
+          y: 50,
+          duration: 0.5
+        });
+      }
+    }]
+  });
+
+  barba.hooks.after(() => {
+    initPage(document);
+  });
+
+  function initLiquidGlass() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=');
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uTexture: { value: texture }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        uniform sampler2D uTexture;
+        varying vec2 vUv;
+
+        // 2D Random
+        float random (in vec2 st) {
+            return fract(sin(dot(st.xy,
+                                 vec2(12.9898,78.233)))
+                        * 43758.5453123);
+        }
+
+        // 2D Noise based on Morgan McGuire @morgan3d
+        // https://www.shadertoy.com/view/4dS3Wd
+        float noise (in vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+
+            // Four corners in 2D of a tile
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(a, b, u.x) +
+                    (c - a)* u.y * (1.0 - u.x) +
+                    (d - b) * u.x * u.y;
+        }
+
+        void main() {
+          vec2 uv = vUv;
+          float time = uTime * 0.1;
+          float distortion = noise(uv * 10.0 + time) * 0.1;
+          uv.x += distortion;
+          uv.y += distortion;
+          gl_FragColor = texture2D(uTexture, uv);
+        }
+      `
+    });
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      material.uniforms.uTime.value += 0.01;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  }
 });

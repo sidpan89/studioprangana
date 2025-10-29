@@ -102,7 +102,7 @@ a:hover{color:#9fc3ff; transform:translateY(-1px)}
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0e1013">
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" href="assets/logo/logo.png" type="image/png">
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" type="image/png">
 
 </head>
 <body class="page-home">
@@ -110,7 +110,7 @@ a:hover{color:#9fc3ff; transform:translateY(-1px)}
   <div id="preloader" aria-hidden="true"><div class="spinner"></div></div>
   <div id="glassFX" aria-hidden="true"></div>
     <header class="site-header">
-    <a class="logo" href="index.html"><img src="assets/logo/logo.png" alt="Studio Prangana logo"><span>Studio Prangana</span></a>
+    <a class="logo" href="index.html"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Studio Prangana logo"><span>Studio Prangana</span></a>
     <button id="menuToggle" class="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav id="overlayNav" class="overlay-nav" aria-hidden="true">
       <div class="nav-card">
@@ -126,17 +126,19 @@ a:hover{color:#9fc3ff; transform:translateY(-1px)}
     </nav>
   </header>
 
-  <main id="main">
+  <div id="barba-wrapper" data-barba="wrapper">
+  <main id="main" data-barba="container" data-barba-namespace="home">
     <section class="hero">
       <div class="slides">
-        <figure class="slide active" style="background-image:url('assets/portfolio/ridge.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/portfolio/atrium.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/portfolio/arcade.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/portfolio/timber.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/services/architecture.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/services/interior.jpg')"></figure>
-        <figure class="slide" style="background-image:url('assets/portfolio/silk-apartment.jpg')"></figure>
+        <figure class="slide active" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
+        <figure class="slide" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')"></figure>
       </div>
+      <canvas id="hero-canvas"></canvas>
       <div class="hero-inner container">
         <div class="hero-copy glass">
           <h1 class="headline">Spaces that Inspire.</h1>
@@ -157,21 +159,22 @@ a:hover{color:#9fc3ff; transform:translateY(-1px)}
         </div>
         <div class="project-grid">
           <a class="project-card tilt reveal" href="project.html">
-            <div class="project-media"><img src="assets/portfolio/atrium.jpg" alt="Atrium Office"></div>
+            <div class="project-media"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Atrium Office"></div>
             <div class="project-meta"><h3>Atrium Office</h3><span>Commercial · 2024</span></div>
           </a>
           <a class="project-card tilt reveal" href="project.html">
-            <div class="project-media"><img src="assets/portfolio/arcade.jpg" alt="Arcade Workspace"></div>
+            <div class="project-media"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Arcade Workspace"></div>
             <div class="project-meta"><h3>Arcade Workspace</h3><span>Commercial · 2024</span></div>
           </a>
           <a class="project-card tilt reveal" href="project.html">
-            <div class="project-media"><img src="assets/portfolio/timber.jpg" alt="Timber Pavilion"></div>
+            <div class="project-media"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Timber Pavilion"></div>
             <div class="project-meta"><h3>Timber Pavilion</h3><span>Public Realm · 2025</span></div>
           </a>
         </div>
       </div>
     </section>
   </main>
+  </div>
     <footer class="site-footer">
     <div class="container footer-inner">
       <div>
@@ -189,6 +192,9 @@ a:hover{color:#9fc3ff; transform:translateY(-1px)}
     <div class="container fineprint">© <span id="year"></span> Studio Prangana.</div>
   </footer>
 
+  <script src="js/gsap.min.js" defer></script>
+  <script src="js/barba.core.min.js" defer></script>
+  <script src="js/three.min.js" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>
