@@ -1,4 +1,5 @@
 
+gsap.registerPlugin(ScrollTrigger);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 
 function setYear(){ const y=document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); }
@@ -46,6 +47,20 @@ function ioReveals(container=document){
   });
 }
 
+function initParallax() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  gsap.to(hero, {
+    backgroundPositionY: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: hero,
+      scrub: true
+    }
+  });
+}
+
 function wordsManifest(rootEl){
   const targets = [rootEl.querySelector('.headline'), rootEl.querySelector('.lead')].filter(Boolean);
   targets.forEach(el => {
@@ -69,17 +84,54 @@ function headlineStagger(container=document){
 }
 
 function tiltify(){
-  const max = 8;
+  const max = 12;
   $$('.tilt').forEach(card => {
+    const img = card.querySelector('img');
+    gsap.set(img, { scale: 1.1 });
+
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width;
       const py = (e.clientY - r.top) / r.height;
       const rx = (py - 0.5) * max;
       const ry = (0.5 - px) * max;
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      gsap.to(card, {
+        rotationX: rx,
+        rotationY: ry,
+        perspective: 900,
+        ease: 'power2.out'
+      });
+      gsap.to(img, {
+        x: ry * 2,
+        y: -rx * 2,
+        ease: 'power2.out'
+      });
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+
+    card.addEventListener('mouseenter', () => {
+      gsap.to(img, {
+        scale: 1,
+        duration: 0.5,
+        ease: 'power3.out'
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, {
+        rotationX: 0,
+        rotationY: 0,
+        perspective: 900,
+        duration: 0.8,
+        ease: 'elastic.out(1, 0.3)'
+      });
+      gsap.to(img, {
+        x: 0,
+        y: 0,
+        scale: 1.1,
+        duration: 0.8,
+        ease: 'elastic.out(1, 0.3)'
+      });
+    });
   });
 }
 
@@ -135,6 +187,33 @@ function glassCursor(){
   window.addEventListener('pointermove', onMove);
 }
 
+function initMagneticElements() {
+  const magnets = $$('a, button');
+  magnets.forEach((magnet) => {
+    magnet.addEventListener('mousemove', function (e) {
+      const rect = magnet.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      gsap.to(magnet, {
+        x: (x - rect.width / 2) * 0.5,
+        y: (y - rect.height / 2) * 0.5,
+        duration: 0.8,
+        ease: 'power3.out'
+      });
+    });
+
+    magnet.addEventListener('mouseleave', function () {
+      gsap.to(magnet, {
+        x: 0,
+        y: 0,
+        duration: 0.8,
+        ease: 'elastic.out(1, 0.3)'
+      });
+    });
+  });
+}
+
 function initPage(container=document){
   setYear();
   overlayNav();
@@ -145,6 +224,8 @@ function initPage(container=document){
   filtersProjects();
   glassCursor();
   initLiquidGlass();
+  initMagneticElements();
+  initParallax();
 }
 
 preloader();
